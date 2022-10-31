@@ -1,0 +1,10 @@
+.container
+{
+    text-align: center;
+ width:5000px;
+ height: 100%;
+ background-color:  bisque;   
+}
+.card{
+   margin-left: 15%;
+}

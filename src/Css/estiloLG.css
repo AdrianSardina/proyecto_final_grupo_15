@@ -1,0 +1,54 @@
+.nofun{
+    text-align: center;
+    color:white;
+    background-image: url(../Imagenes/Error.jpg);
+    height: 1000px;
+    width: 100%;
+    line-height: 1000px;
+}
+.botones {
+    background-image: url(../Imagenes/fondoBotones.png);
+    background-position: 50% 50%;
+}
+.masJuegos{
+    
+    background-image:url(../Imagenes/masJuegos.jpg) ;
+    height: 1000px ;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+.b1
+{
+    display: flex;
+    justify-content: left;
+    text-align: left;
+}
+.textomasjuegos{
+    text-align: center;
+    color: whitesmoke;
+    background-color: darkcyan;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1620px;
+    height: 150;
+    border-radius: 50px;
+}
+footer
+{
+    text-align: center;
+    background-color: darkgray;
+    height: 200px;
+}
+.piePagina{
+    background-image: url(../Imagenes/15.jpg);
+    height: 100px;
+    width: 130px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background-position: 50% 50%;
+
+
+}
