@@ -19,12 +19,15 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
+    height: 720px;
 }
 .b1
 {
     display: flex;
     justify-content: left;
     text-align: left;
+    padding: 5px;
+
 }
 .textomasjuegos{
     text-align: center;
