@@ -10,7 +10,7 @@ export class Congratulations extends Phaser.Scene {
 
  preload() {
    this.load.image("background", './img/background.png');
- this.restartButton.preload();
+   this.restartButton.preload();
  }
  
  create() {

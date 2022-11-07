@@ -11,7 +11,7 @@ class Boton extends React.Component {
         <Button href="/arkanoid" variant="danger">Arkanoid</Button>
         <Button href="/nosotros" variant="danger">Nosotros</Button>
         <Button href="/masjuegos" variant="danger">Mas Juegos</Button>
-        
+        <Button href="/nave" variant="danger">Nave</Button>
         </div>
         );
     }
