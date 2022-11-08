@@ -16,7 +16,7 @@
  import "../src/Css/stylesAhorcadito.css"
  import './Css/estiloLG.css';
  import './Imagenes/15.jpg';
-import JuegoNave from "./Nave/JuegoNave";
+import JuegoNave from "./nave/JuegoNave";
 
 
 

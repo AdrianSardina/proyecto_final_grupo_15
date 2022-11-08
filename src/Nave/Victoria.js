@@ -1,6 +1,7 @@
-export class Derrota extends Phaser.Scene{
+export class Victoria extends Phaser.Scene{
     constructor(){
         super({ key: 'victoria' });
+        this.botonNivelUno=null;
       }
 
       preload(){

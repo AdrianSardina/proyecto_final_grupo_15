@@ -3,7 +3,8 @@ import Phaser from "phaser";
 import React from "react";
 import { Preload } from "./Preload";
 import { Principal } from "./Principal";
-
+import { Victoria} from "./Victoria.js";
+import { Derrota } from "./Derrota";
 
 
 export default function JuegoNave() {
@@ -13,8 +14,8 @@ export default function JuegoNave() {
     useEffect (() =>{    
         var config = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 700,
+        width: 1000,
+        height: 800,
         physics: {
             default: 'arcade',
             arcade: {
@@ -23,7 +24,7 @@ export default function JuegoNave() {
         },
 
 
-        scene:[Principal]
+        scene:[Preload,Principal,Derrota,Victoria]
 
 
         // scene: {
