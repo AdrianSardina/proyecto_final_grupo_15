@@ -4,6 +4,7 @@ export class Nave {
     this.vidas = 3;
     this.velocidad =850;
     this.rapidezDisparo =200;
+    
     }
     create() {
     this.nave = this.relatedScene.physics.add.image(385, 750, 'nave');
@@ -32,5 +33,5 @@ export class Nave {
            bala.setVelocityY(-700)
          }
     
-       
+    
   }

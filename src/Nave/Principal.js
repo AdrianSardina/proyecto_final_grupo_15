@@ -18,7 +18,9 @@ export class Principal extends Phaser.Scene  {
       Sirve para controlar acciones que se ejecuten en intervalos .*/     
       tiempoTranscurrido = null;
       proximodisparo =null;
-      
+       
+
+      //--------------------Create---------------------//
     create()
     {
       
@@ -34,7 +36,7 @@ export class Principal extends Phaser.Scene  {
       this.physics.world.setBoundsCollision(true, true, true, true);
       this.timer =0;
       this.proximodisparo =0;
-        const pepe =0
+        
       //textos
       this.puntaje = 0;
       
@@ -43,10 +45,12 @@ export class Principal extends Phaser.Scene  {
       
       //Genera la flota enemiga
       this.generar(listaNaveEnemigas,this.flotaEnemiga)
+      //Controlo las colisiones
       this.physics.add.collider(this.balasPropias, this.flotaEnemiga,this.eliminarNave,null,this);
-      this.physics.add.collider(this.nave, this.flotaEnemiga,this.eliminarNave,null,this);
+      this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
+      this.physics.add.collider(this.nave.get(), this.balasEnemigas,this.impactoconBala,null,this);
     }
-    
+//--------------------Update---------------------//
     update(time,delta)
     {
       this.tiempoTranscurrido +=delta
@@ -69,9 +73,38 @@ export class Principal extends Phaser.Scene  {
       //Para eliminar las balas que hayan pasado la parte superior
       this.eliminarBalas()
       this.controlarFlota(this.tiempoTranscurrido,this.balasEnemigas)
+      if(this.flotaEnemiga.countActive()==0)
+      {
+        this.scene.start('victoria');
+      }
+    }
+//--------------------Funciones---------------------//
+
+    verificarDerrota()
+    {
+        if(this.nave.vidas ==0){
+          this.scene.start('derrota');
+        }
+    }
+  impactoconBala(nave,bala){
+      this.nave.vidas -=1;
+      this.textoVidas.setText('Vidas' + this.nave.vidas);
+      bala.disableBody(true,true)
+      this.verificarDerrota();
+  }
+  impactoconNave(naveAmiga,naveEnemiga)
+    {
+      this.nave.vidas -=1;
+      this.textoVidas.setText('Vidas' + this.nave.vidas);
+      var a=naveEnemiga.getData('evento')
+      a.destroy()
+      naveEnemiga.disableBody(true,true)
+      this.verificarDerrota();    
     }
 
-
+    
+    
+    //Elimina una nave que fue disparada por el jugador
     eliminarNave(bala,nave)
     {   this.puntaje += 10;
         this.textoPuntaje.setText('Score: ' + this.puntaje);
@@ -80,6 +113,7 @@ export class Principal extends Phaser.Scene  {
         a.destroy()
         bala.disableBody(true,true);
     }
+
     eliminarBalas()
     {
      this.balasPropias.children.iterate(function (child) {
@@ -92,25 +126,19 @@ export class Principal extends Phaser.Scene  {
  });
  }
  controlarFlota(tiempoTranscurrido, grupoBalas)
- {
-  
+    {
+
   this.flotaEnemiga.children.iterate(function (child) {
        
     //Revisa que si la nave paso por la parte inferior del lienzo. Si asi se lo elimina
         if(child.y >800) 
         {
          child.disableBody(true,true);
-        }
-         //Revisa si la nave paso la parte superior del lienzo y que haya pasado un tiempo desde que disparó
-        // else if(child.y>0 && child.getData('siguienteDisparo') < tiempoTranscurrido)
-          // {
-          // var nuevaBala = grupoBalas.create(child.x,child.y,'bala')
-          // nuevaBala.setVelocityY(600);
-          // child.setData('siguienteDisparo',tiempoTranscurrido + Phaser.Math.Between(1500, 2000))
-          // }
+        }     
      
- });
-  }
+    });
+    
+    }
 
  
 
@@ -136,9 +164,11 @@ export class Principal extends Phaser.Scene  {
         
         //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
       var eventoDeDisparo =  this.time.addEvent({
+        
           delay: Phaser.Math.Between(1000, 1500),
           callback: () => {
             
+            //Reviso que la nave se vea en el lienzo
             if(nuevaNave.y >=0)
             {
               //Creo la nueva bala y le asigno una velocidad
@@ -151,7 +181,7 @@ export class Principal extends Phaser.Scene  {
       })
      
     //aqui guardo el evento con el setData para luego destruilo con su nave sea eliminada
-     nuevaNave.setData('evento',eventoDeDisparo)
+       nuevaNave.setData('evento',eventoDeDisparo)
 
         nuevaNave.setVelocityY(150);
         nuevaNave.setData('siguienteDisparo',0);
