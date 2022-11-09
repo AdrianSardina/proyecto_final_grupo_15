@@ -5,7 +5,7 @@ import { Gameover } from "../escenas/GameOver";
 import { Portada } from "../escenas/Portada";
 import Escena from "../escenas/Escena";
 import { Congratulations } from "../escenas/Congratulation";
-import { MenuInicio } from "../escenas/MenuInicio";
+//import { MenuInicio } from "../escenas/MenuInicio";
 
 
 
@@ -26,7 +26,7 @@ export default function Juego() {
         },
 
 
-        scene:[MenuInicio, Portada,Escena,Gameover,Congratulations]
+        scene:[Portada,Escena,Gameover,Congratulations]
 
 
         // scene: {
