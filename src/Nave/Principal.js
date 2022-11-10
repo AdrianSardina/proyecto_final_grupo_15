@@ -1,11 +1,12 @@
 import Phaser, { Scene } from "phaser";
 import { Nave } from "./Nave";
 import listaNaveEnemigasNivel2 from "../json/listaNavesEnemigasNivel2.json"
+import listaNaveEnemigasNivel1 from "../json/listaNaveEnemigasNivel1.json"
 import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 export class Principal extends Phaser.Scene  {
-    constructor(){
+    constructor(config){
         super({ key: 'game' });
-
+      this.config = config
       }
       balasPropias = null;
       balasEnemigas = null;
@@ -13,6 +14,8 @@ export class Principal extends Phaser.Scene  {
       vidas =null; 
       nave = new Nave(this);
       flotaEnemiga = null;
+      sonidoDisparo = null;
+      sonidoExplosion = null;
       puntaje = null;
       textoPuntaje =null;
       textoVidas =null;
@@ -27,7 +30,8 @@ export class Principal extends Phaser.Scene  {
     {
       
       this.add.image(400, 300, "background").setScale(2);
-      
+      this.sonidoDisparo = this.sound.add('disparo');
+      this.sonidoExplosion = this.sound.add('explosion')
       this.balasPropias = this.physics.add.group();
       this.flotaEnemiga = this.physics.add.group();
       this.balasEnemigas= this.physics.add.group();
@@ -40,13 +44,12 @@ export class Principal extends Phaser.Scene  {
       this.proximodisparo =0;
         
       //textos
-      this.puntaje = 0;
-      
+      this.puntaje = 0;  
       this.textoPuntaje = this.add.text(16, 16, 'Puntaje: 0', { fontSize: '32px', fill: '#000' });
       this.textoVidas = this.add.text(500, 16, 'Vidas: '+this.nave.vidas, { fontSize: '32px', fill: '#000' });
       
       //Genera la flota enemiga
-      this.generar(listaNaveEnemigasNivel2,this.flotaEnemiga)
+      this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
       //Controlo las colisiones
       this.physics.add.collider(this.balasPropias, this.flotaEnemiga,this.eliminarNave,null,this);
       this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
@@ -71,11 +74,12 @@ export class Principal extends Phaser.Scene  {
           // guarda un tiempo mas la rapidez, y solo se ejecutara de nuevo luego un tiempo especifico.
           this.proximodisparo = this.tiempoTranscurrido  + this.nave.rapidezDisparo; 
           this.nave.disparar(this.balasPropias);
+          this.sonidoDisparo.play()
         }
       }
       //Para eliminar las balas que hayan pasado la parte superior
       this.eliminarBalas()
-      this.controlarFlota(this.tiempoTranscurrido,this.balasEnemigas)
+      this.controlarFlota()
       if(this.flotaEnemiga.countActive()==0)
       { 
         this.nivelActual++
@@ -83,7 +87,7 @@ export class Principal extends Phaser.Scene  {
         {
           
           case 2:
-            this.generar(listaNaveEnemigasNivel2,this.flotaEnemiga);
+            this.generarNivelDos(listaNaveEnemigasNivel2,this.flotaEnemiga);
             break;
           case 3:
             this.scene.start('victoria');
@@ -140,6 +144,7 @@ export class Principal extends Phaser.Scene  {
         var a=nave.getData('evento')
         a.destroy()
         bala.disableBody(true,true);
+        this.sonidoExplosion.play();
     }
 
     eliminarBalas()
@@ -153,7 +158,7 @@ export class Principal extends Phaser.Scene  {
  
  });
  }
- controlarFlota(tiempoTranscurrido, grupoBalas)
+ controlarFlota()
     {
 
   this.flotaEnemiga.children.iterate(function (child) {
@@ -170,7 +175,7 @@ export class Principal extends Phaser.Scene  {
 
  
 
- generar(lista ,grupo) {
+ generarNivelDos(lista ,grupo) {
   for (let s of lista) {   
           let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
           //Se usa para dar el movimiento de seno
@@ -189,7 +194,7 @@ export class Principal extends Phaser.Scene  {
             
             ],   
         });
-        
+         
         //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
       var eventoDeDisparo =  this.time.addEvent({
         
@@ -201,7 +206,7 @@ export class Principal extends Phaser.Scene  {
             {
               //Creo la nueva bala y le asigno una velocidad
               var nuevaBala = this.balasEnemigas.create(nuevaNave.x,nuevaNave.y,'bala')
-              nuevaBala.setVelocityY(600);
+              nuevaBala.setVelocityY(400);
             }
            
           },
@@ -216,6 +221,38 @@ export class Principal extends Phaser.Scene  {
       }
      
   }
+  generarNivelUno(lista ,grupo) {
+    for (let s of lista) {   
+            let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
+            //Se usa para dar el movimiento de seno
+            
+           
+          //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
+        var eventoDeDisparo =  this.time.addEvent({
+          
+            delay: Phaser.Math.Between(1200, 1500),
+            callback: () => {
+              
+              //Reviso que la nave se vea en el lienzo
+              if(nuevaNave.y >=0)
+              {
+                //Creo la nueva bala y le asigno una velocidad
+                var nuevaBala = this.balasEnemigas.create(nuevaNave.x,nuevaNave.y,'bala')
+                nuevaBala.setVelocityY(500);
+              }
+             
+            },
+            loop: true,
+        })
+       
+      //aqui guardo el evento con el setData para luego destruilo con su nave sea eliminada
+          nuevaNave.setData('evento',eventoDeDisparo)
+  
+          nuevaNave.setVelocityY(150);
+          nuevaNave.setData('siguienteDisparo',0);
+        }
+       
+    }
 
 }
 

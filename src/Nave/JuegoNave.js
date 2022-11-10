@@ -11,11 +11,22 @@ export default function JuegoNave() {
 
 
     const [listo,setListo] = useState(false);
-    useEffect (() =>{    
+    useEffect (() =>{   
+        var Configuracion =
+        {
+            scale:{
+              //  autoCenter :Phaser.Scale.CENTER_HORIZONTALLY,
+                width: 1000,
+                height: 800, 
+            },
+            nivelactual:1,
+        } 
+        const Escenas =[Preload,Principal,Derrota,Victoria]
+        const crearEscenas = Scene => new Scene(Configuracion)
+        const iniciarEscena = () => Escenas.map(crearEscenas)
         var config = {
         type: Phaser.AUTO,
-        width: 1000,
-        height: 800,
+        ...Configuracion,
         physics: {
             default: 'arcade',
             arcade: {
@@ -24,8 +35,7 @@ export default function JuegoNave() {
         },
 
 
-        scene:[Preload,Principal,Derrota,Victoria]
-
+        scene:iniciarEscena()
 
         // scene: {
         //     preload: preload,
