@@ -4,10 +4,11 @@ export class Nave {
     this.vidas = 3;
     this.velocidad =850;
     this.rapidezDisparo =200;
-    
+    this.esInvencible =false;
+    this.tiempoInvencibilidad =3000;
     }
     create() {
-    this.nave = this.relatedScene.physics.add.image(385, 750, 'nave');
+    this.nave = this.relatedScene.physics.add.image(385, 750, 'nave').setImmovable(true);
     this.nave.setCollideWorldBounds(true);
    
     }
@@ -29,9 +30,24 @@ export class Nave {
     }
     disparar(balas)
         {
-      var bala =balas.create(this.nave.x,this.nave.y,'bala');
+       var bala =balas.create(this.nave.x,this.nave.y,'bala');
            bala.setVelocityY(-700)
          }
-    
-    
+    //Para evitar que pierda muchas vidas en un corto tiempo.
+    darInvencibilidad()
+    {
+      this.nave.setAlpha(0.4);
+      this.esInvencible =true;
+      var eventoInvincibilidad =  this.relatedScene.time.addEvent({
+        
+        delay: this.tiempoInvencibilidad,
+        callback: () => {
+          
+         
+          this.esInvencible =false;
+          this.nave.setAlpha(1);
+        },
+        loop: false,
+    })
+    }
   }

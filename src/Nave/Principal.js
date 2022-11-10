@@ -1,13 +1,15 @@
 import Phaser, { Scene } from "phaser";
 import { Nave } from "./Nave";
-import listaNaveEnemigas from "../json/listaNavesEnemigas.json"
+import listaNaveEnemigasNivel2 from "../json/listaNavesEnemigasNivel2.json"
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 export class Principal extends Phaser.Scene  {
     constructor(){
         super({ key: 'game' });
+
       }
       balasPropias = null;
       balasEnemigas = null;
-      
+      nivelActual = null
       vidas =null; 
       nave = new Nave(this);
       flotaEnemiga = null;
@@ -18,7 +20,7 @@ export class Principal extends Phaser.Scene  {
       Sirve para controlar acciones que se ejecuten en intervalos .*/     
       tiempoTranscurrido = null;
       proximodisparo =null;
-       
+      
 
       //--------------------Create---------------------//
     create()
@@ -44,7 +46,7 @@ export class Principal extends Phaser.Scene  {
       this.textoVidas = this.add.text(500, 16, 'Vidas: '+this.nave.vidas, { fontSize: '32px', fill: '#000' });
       
       //Genera la flota enemiga
-      this.generar(listaNaveEnemigas,this.flotaEnemiga)
+      this.generar(listaNaveEnemigasNivel2,this.flotaEnemiga)
       //Controlo las colisiones
       this.physics.add.collider(this.balasPropias, this.flotaEnemiga,this.eliminarNave,null,this);
       this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
@@ -53,6 +55,7 @@ export class Principal extends Phaser.Scene  {
 //--------------------Update---------------------//
     update(time,delta)
     {
+      console.log(this.nave.esInvencible);
       this.tiempoTranscurrido +=delta
      
      
@@ -74,8 +77,20 @@ export class Principal extends Phaser.Scene  {
       this.eliminarBalas()
       this.controlarFlota(this.tiempoTranscurrido,this.balasEnemigas)
       if(this.flotaEnemiga.countActive()==0)
-      {
-        this.scene.start('victoria');
+      { 
+        this.nivelActual++
+        switch(this.nivelActual)
+        {
+          
+          case 2:
+            this.generar(listaNaveEnemigasNivel2,this.flotaEnemiga);
+            break;
+          case 3:
+            this.scene.start('victoria');
+            break;
+
+        }
+       
       }
     }
 //--------------------Funciones---------------------//
@@ -87,19 +102,32 @@ export class Principal extends Phaser.Scene  {
         }
     }
   impactoconBala(nave,bala){
+    //Reviso en que no sea invencible en el momento de choque.
+    if(!this.nave.esInvencible)
+    {
       this.nave.vidas -=1;
-      this.textoVidas.setText('Vidas' + this.nave.vidas);
-      bala.disableBody(true,true)
+      this.textoVidas.setText('Vidas: ' + this.nave.vidas);
       this.verificarDerrota();
+      this.nave.darInvencibilidad();
+    }
+    bala.disableBody(true,true)
+      
   }
   impactoconNave(naveAmiga,naveEnemiga)
     {
-      this.nave.vidas -=1;
-      this.textoVidas.setText('Vidas' + this.nave.vidas);
-      var a=naveEnemiga.getData('evento')
-      a.destroy()
-      naveEnemiga.disableBody(true,true)
-      this.verificarDerrota();    
+      if(!this.nave.esInvencible)
+      {
+        this.nave.vidas -=1;
+        this.textoVidas.setText('Vidas: ' + this.nave.vidas);
+        this.verificarDerrota();
+        this.nave.darInvencibilidad();    
+      } 
+        
+        //Recibo el evento usado para que esa nave dispare y lo destruyo para que no genere nuevas balas  
+        var a=naveEnemiga.getData('evento')
+        a.destroy()
+        naveEnemiga.disableBody(true,true)
+      
     }
 
     
@@ -144,7 +172,7 @@ export class Principal extends Phaser.Scene  {
 
  generar(lista ,grupo) {
   for (let s of lista) {   
-          let nuevaNave = grupo.create(s.x,s.y,'nave').setImmovable(true);
+          let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
           //Se usa para dar el movimiento de seno
           var timeline = this.tweens.timeline({      
             targets: nuevaNave,         
@@ -153,7 +181,7 @@ export class Principal extends Phaser.Scene  {
                 repeat:-1,
                 x: s.x +400,           
                 ease: 'Sine.easeInOut',
-                duration: 800,
+                duration: 700,
                 yoyo: true,
                            
             },
@@ -165,7 +193,7 @@ export class Principal extends Phaser.Scene  {
         //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
       var eventoDeDisparo =  this.time.addEvent({
         
-          delay: Phaser.Math.Between(1000, 1500),
+          delay: Phaser.Math.Between(800, 1200),
           callback: () => {
             
             //Reviso que la nave se vea en el lienzo
