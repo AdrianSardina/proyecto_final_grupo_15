@@ -18,7 +18,7 @@ export class BotonRestartNave {
        });
         this.startButton.on('pointerdown', () => {
             
-            this.relatedScene.scene.start('game');
+            this.relatedScene.scene.start('menuInicio');
         });
     }
 }
