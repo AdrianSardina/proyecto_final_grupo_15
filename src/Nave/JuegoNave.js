@@ -37,14 +37,16 @@ export default function JuegoNave() {
 
         scene:iniciarEscena()
 
-        // scene: {
-        //     preload: preload,
-        //     create: create
-        // }
+    
         };
 
           //arranca el juego
           var game = new Phaser.Game(config);
+          
+          game.global = {
+            score : 0,
+            sound : false
+           }
           //Trigger cuando el juego esta completamente listo
          game.events.on("LISTO",setListo)
     

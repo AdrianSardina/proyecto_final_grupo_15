@@ -2,7 +2,7 @@ import Phaser, { Scene } from "phaser";
 import { Nave } from "./Nave";
 import listaNaveEnemigasNivel2 from "../json/listaNavesEnemigasNivel2.json"
 import listaNaveEnemigasNivel1 from "../json/listaNaveEnemigasNivel1.json"
-import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
+
 export class Principal extends Phaser.Scene  {
     constructor(config){
         super({ key: 'game' });
@@ -16,6 +16,7 @@ export class Principal extends Phaser.Scene  {
       flotaEnemiga = null;
       sonidoDisparo = null;
       sonidoExplosion = null;
+      sonidoChoque = null;
       puntaje = null;
       textoPuntaje =null;
       textoVidas =null;
@@ -26,12 +27,12 @@ export class Principal extends Phaser.Scene  {
       
 
       //--------------------Create---------------------//
+    
     create()
     {
       
       this.add.image(400, 300, "background").setScale(2);
-      this.sonidoDisparo = this.sound.add('disparo');
-      this.sonidoExplosion = this.sound.add('explosion')
+      this.agregarSonidos()
       this.balasPropias = this.physics.add.group();
       this.flotaEnemiga = this.physics.add.group();
       this.balasEnemigas= this.physics.add.group();
@@ -58,7 +59,7 @@ export class Principal extends Phaser.Scene  {
 //--------------------Update---------------------//
     update(time,delta)
     {
-      console.log(this.nave.esInvencible);
+      console.log(this.game.global.score);
       this.tiempoTranscurrido +=delta
      
      
@@ -90,6 +91,7 @@ export class Principal extends Phaser.Scene  {
             this.generarNivelDos(listaNaveEnemigasNivel2,this.flotaEnemiga);
             break;
           case 3:
+            
             this.scene.start('victoria');
             break;
 
@@ -124,6 +126,7 @@ export class Principal extends Phaser.Scene  {
         this.nave.vidas -=1;
         this.textoVidas.setText('Vidas: ' + this.nave.vidas);
         this.verificarDerrota();
+        this.sonidoChoque.play()
         this.nave.darInvencibilidad();    
       } 
         
@@ -138,7 +141,7 @@ export class Principal extends Phaser.Scene  {
     
     //Elimina una nave que fue disparada por el jugador
     eliminarNave(bala,nave)
-    {   this.puntaje += 10;
+    {   this.game.global.score += 10;
         this.textoPuntaje.setText('Score: ' + this.puntaje);
         nave.disableBody(true,true);
         var a=nave.getData('evento')
@@ -253,7 +256,11 @@ export class Principal extends Phaser.Scene  {
         }
        
     }
-
+    agregarSonidos(){
+      this.sonidoDisparo = this.sound.add('disparo');
+      this.sonidoExplosion = this.sound.add('explosion');
+      this.sonidoChoque = this.sound.add('choque');
+    }
 }
 
  

@@ -36,7 +36,7 @@ export class Nave {
     //Para evitar que pierda muchas vidas en un corto tiempo.
     darInvencibilidad()
     {
-      this.nave.setAlpha(0.4);
+      this.nave.setAlpha(0.4); // Esto hace mas transparente al objeto mientra se acerca a 0
       this.esInvencible =true;
       var eventoInvincibilidad =  this.relatedScene.time.addEvent({
         
