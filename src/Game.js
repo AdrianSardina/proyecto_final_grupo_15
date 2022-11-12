@@ -16,6 +16,7 @@
  import "../src/Css/stylesAhorcadito.css"
  import './Css/estiloLG.css';
  import './Imagenes/15.jpg';
+ import Preguntados from "./Componentes/Preguntados";
 
 
 
@@ -41,7 +42,7 @@ export default function Game() {
         </BrowserRouter> 
         <Footer></Footer>
 
-        
+     {/* <Preguntados></Preguntados> */}
         </>
 
     )
