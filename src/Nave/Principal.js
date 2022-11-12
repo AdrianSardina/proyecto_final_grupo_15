@@ -2,6 +2,8 @@ import Phaser, { Scene } from "phaser";
 import { Nave } from "./Nave";
 import listaNaveEnemigasNivel2 from "../json/listaNavesEnemigasNivel2.json"
 import listaNaveEnemigasNivel1 from "../json/listaNaveEnemigasNivel1.json"
+import { PowerUps } from "./PowerUps";
+
 
 export class Principal extends Phaser.Scene  {
     constructor(config){
@@ -10,10 +12,12 @@ export class Principal extends Phaser.Scene  {
       }
       balasPropias = null;
       balasEnemigas = null;
-      nivelActual = null
+      powerUp = new PowerUps(this);
+      listaPowerUps = null;
       vidas =null; 
       nave = new Nave(this);
       flotaEnemiga = null;
+      nivelActual = null;
       sonidoDisparo = null;
       sonidoExplosion = null;
       sonidoChoque = null;
@@ -27,15 +31,14 @@ export class Principal extends Phaser.Scene  {
       
 
       //--------------------Create---------------------//
-    
+      
     create()
     {
       
       this.add.image(400, 300, "background").setScale(2);
+      this.nivelActual =1;
       this.agregarSonidos()
-      this.balasPropias = this.physics.add.group();
-      this.flotaEnemiga = this.physics.add.group();
-      this.balasEnemigas= this.physics.add.group();
+      this.agregarGrupos()
       this.nave.create();
       
       //Para controlar cuando uso el teclado
@@ -55,11 +58,12 @@ export class Principal extends Phaser.Scene  {
       this.physics.add.collider(this.balasPropias, this.flotaEnemiga,this.eliminarNave,null,this);
       this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
       this.physics.add.collider(this.nave.get(), this.balasEnemigas,this.impactoconBala,null,this);
+      this.physics.add.collider(this.nave.get(), this.listaPowerUps,this.impactoconPower,null,this);
     }
 //--------------------Update---------------------//
     update(time,delta)
     {
-      console.log(this.game.global.score);
+      console.log(this.flotaEnemiga.countActive());
       this.tiempoTranscurrido +=delta
      
      
@@ -74,7 +78,7 @@ export class Principal extends Phaser.Scene  {
           
           // guarda un tiempo mas la rapidez, y solo se ejecutara de nuevo luego un tiempo especifico.
           this.proximodisparo = this.tiempoTranscurrido  + this.nave.rapidezDisparo; 
-          this.nave.disparar(this.balasPropias);
+          this.nave.disparar(this.balasPropias,this.nave.tipoDisparo);
           this.sonidoDisparo.play()
         }
       }
@@ -107,7 +111,7 @@ export class Principal extends Phaser.Scene  {
           this.scene.start('derrota');
         }
     }
-  impactoconBala(nave,bala){
+    impactoconBala(nave,bala){
     //Reviso en que no sea invencible en el momento de choque.
     if(!this.nave.esInvencible)
     {
@@ -115,6 +119,7 @@ export class Principal extends Phaser.Scene  {
       this.textoVidas.setText('Vidas: ' + this.nave.vidas);
       this.verificarDerrota();
       this.nave.darInvencibilidad();
+
     }
     bala.disableBody(true,true)
       
@@ -137,19 +142,29 @@ export class Principal extends Phaser.Scene  {
       
     }
 
-    
+    impactoconPower(nave,power)
+    {
+     this.powerUp.cambiarTipoDisparo(this.nave)
+     power.disableBody(true,true);
+    }
     
     //Elimina una nave que fue disparada por el jugador
     eliminarNave(bala,nave)
     {   this.game.global.score += 10;
         this.textoPuntaje.setText('Score: ' + this.puntaje);
+        if(Phaser.Math.RND.between(0, 99)<=19){
+          this.powerUp.create(nave.x,nave.y,this.listaPowerUps)
+        }
+        
         nave.disableBody(true,true);
+        
         var a=nave.getData('evento')
         a.destroy()
         bala.disableBody(true,true);
         this.sonidoExplosion.play();
+        
     }
-
+ //Elimina las balas que se pasaron de la parte superior
     eliminarBalas()
     {
      this.balasPropias.children.iterate(function (child) {
@@ -166,7 +181,7 @@ export class Principal extends Phaser.Scene  {
 
   this.flotaEnemiga.children.iterate(function (child) {
        
-    //Revisa que si la nave paso por la parte inferior del lienzo. Si asi se lo elimina
+    //Revisa que si la nave paso por la parte inferior del lienzo. Si es asi se lo elimina
         if(child.y >800) 
         {
          child.disableBody(true,true);
@@ -260,6 +275,12 @@ export class Principal extends Phaser.Scene  {
       this.sonidoDisparo = this.sound.add('disparo');
       this.sonidoExplosion = this.sound.add('explosion');
       this.sonidoChoque = this.sound.add('choque');
+    }
+    agregarGrupos(){
+      this.balasPropias = this.physics.add.group();
+      this.flotaEnemiga = this.physics.add.group();
+      this.balasEnemigas= this.physics.add.group();
+      this.listaPowerUps= this.physics.add.group();
     }
 }
 

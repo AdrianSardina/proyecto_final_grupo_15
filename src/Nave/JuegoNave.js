@@ -44,7 +44,7 @@ export default function JuegoNave() {
           var game = new Phaser.Game(config);
           
           game.global = {
-            score : 0,
+            nivelactual : 1,
             sound : false
            }
           //Trigger cuando el juego esta completamente listo
