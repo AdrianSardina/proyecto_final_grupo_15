@@ -1,0 +1,26 @@
+[
+    {
+        "nombre":"Guardo, Lautaro Guillermo",
+        "img":"../img/Lautaro.jpeg",
+        "LU":"TUV000025",
+        "frase":"'Lo que hoy digamos pronto será olvidado, lo que hagamos perdurará durante miles y miles de años.'"
+    },
+    {
+        "nombre":"Sardina, Jose Adrian",
+        "img":"../img/adrian.png",
+        "LU":"TUV000257",
+        "frase":""
+    },
+    {
+        "nombre":"Ramírez, Natalia Lucia",
+        "img":"../img/RamirezNatalia.jpg",
+        "LU":"TUV000438",
+        "frase":"'hay que vivir el hoy no el mañana, eso puede esperar mi presente es mas importante que una suposicion de lo que puede pasarar'"
+    },
+    {
+        "nombre":"Alfaro, Leonardo Emanuel",
+        "img":"",
+        "LU":"TUV000181",
+        "frase":""
+    }
+]
