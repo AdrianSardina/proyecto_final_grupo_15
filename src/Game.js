@@ -3,7 +3,7 @@
  import Nosotros from "./Componentes/Nosotros"; 
  import PiedraPapelTijeras from "./Componentes/PiedraPapelTijeras";
  import Footer from "./Componentes/Footer";
- import Boton from "./Componentes/Boton"
+ import { Boton } from "./Componentes/Boton";
  import 'bootstrap/dist/css/bootstrap.min.css';
  import { BrowserRouter, Routes, Route} from "react-router-dom";
  import Masjuegos from "./Componentes/MasJuegos";
@@ -48,7 +48,7 @@ export default function Game() {
         </BrowserRouter> 
         <Footer></Footer>
 
-     {/* <Preguntados></Preguntados> */}
+    
         </>
 
     )

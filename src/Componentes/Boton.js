@@ -1,8 +1,8 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 
-class Boton extends React.Component {
-    render() {
+export function Boton() {
+    
         return (
             <div className= "botones">
         <Button href="/" variant="danger">Inicio</Button>
@@ -15,6 +15,6 @@ class Boton extends React.Component {
         <Button href="/nave" variant="danger">Nave</Button>
 
         </div>
-    );
-}
-//}
+        )
+    }
+
