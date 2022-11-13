@@ -2,8 +2,8 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 
 
-class Masjuegos extends React.Component {
-    render() {
+export default function Masjuegos () {
+   // render() {
         return (
             <>
             <div className="masJuegos">
@@ -22,5 +22,4 @@ class Masjuegos extends React.Component {
             </>
         );
     }
-}
-export default Masjuegos;
+//}
