@@ -1,3 +1,10 @@
 import React from "react";
-const NotFound=() => <h1 className="nofun">Pagina no existente... Que estas buscando?</h1>
-export default NotFound;
+export default function Juego() {
+return (
+<>
+<div className="nofun">
+    <div><h1 className="texnofun">Pagina no existente... Qué Buscabas? </h1></div>
+</div>
+</>
+)
+}

@@ -1,3 +1,4 @@
+ //Se usa para crear los bloques en el arkanoid
 export class Levels extends Phaser.Scene{
     
     keys=['greenBrick','orangeBrick','blueBrick','yellowBrick','pinkBrick'];

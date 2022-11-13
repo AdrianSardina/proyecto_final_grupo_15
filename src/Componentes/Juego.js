@@ -5,6 +5,9 @@ import { Gameover } from "../escenas/GameOver";
 import { Portada } from "../escenas/Portada";
 import Escena from "../escenas/Escena";
 import { Congratulations } from "../escenas/Congratulation";
+//import { GanasteNave } from "../escenas/GanasteNave";
+//import { GameOverNave } from "../escenas/GameOverNave";
+//import { MenuInicio } from "../escenas/MenuInicio";
 
 
 
