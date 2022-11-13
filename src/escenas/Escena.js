@@ -67,13 +67,11 @@ class Escena extends Phaser.Scene {
         this.platform.setCollideWorldBounds(true);
 
 
-        //this.ball = this.physics.add.image(400, 30, 'ball');
         this.ball = this.physics.add.image(400, 540, 'ball');
         this.ball.setData('glue', true);
 
         this.ball.setCollideWorldBounds(true);
         this.ball.setBounce(1);
-        //this.ball.setVelocity(100, 10)
 
         this.Bricks= this.levels.CreateLevelOne();    
         this.physics.add.collider(this.ball, this.Bricks, this.brickImpact, null, this);
