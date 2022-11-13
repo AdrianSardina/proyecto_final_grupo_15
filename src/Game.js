@@ -16,6 +16,7 @@
  import "../src/Css/stylesAhorcadito.css"
  import './Css/estiloLG.css';
  import './Imagenes/15.jpg';
+import JuegoNave from "./nave/JuegoNave";
 
 
 
@@ -36,6 +37,7 @@ export default function Game() {
         <Route path="/nosotros" element={<Nosotros/>}/>;
         <Route path="/masjuegos" element={<Masjuegos/>} />;
         <Route path="/arkanoid" element={<Juego/>} />;
+        <Route path="/nave" element={<JuegoNave/>} />;
         <Route path="*" element={<NotFound/>} />;
         </Routes>
         </BrowserRouter> 
