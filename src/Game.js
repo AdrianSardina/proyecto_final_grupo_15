@@ -18,6 +18,7 @@
  import './Imagenes/15.jpg';
  import Preguntados from "./Componentes/Preguntados"; 
  import JuegoNave from "./nave/JuegoNave";
+ import Dude from "./escenas/DudeGame.js";
 
 
 
@@ -41,7 +42,7 @@ export default function Game() {
         <Route path="/arkanoid" element={<Juego/>} />;
         <Route path="/preguntados" element={<Preguntados/>} />;
         <Route path="/nave" element={<JuegoNave/>} />;
-
+        <Route path="/dude" element={<Dude/>} />;
         <Route path="*" element={<NotFound/>} />;
 
         </Routes>

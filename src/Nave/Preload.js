@@ -1,4 +1,8 @@
 export class Preload extends Phaser.Scene{
+    constructor(config){
+        super({ key: 'preload' });
+      this.config = config
+      }
     preload()
     {
         this.load.audio('disparo','./sonidos/disparo.ogg');
@@ -14,6 +18,6 @@ export class Preload extends Phaser.Scene{
     }
     create()
     {      
-        this.scene.start('game') 
+        this.scene.start('gameNave') 
     }
 }

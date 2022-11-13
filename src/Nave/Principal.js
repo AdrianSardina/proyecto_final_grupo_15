@@ -7,7 +7,7 @@ import { PowerUps } from "./PowerUps";
 
 export class Principal extends Phaser.Scene  {
     constructor(config){
-        super({ key: 'game' });
+        super({ key: 'gameNave' });
       this.config = config
       }
       balasPropias = null;
@@ -39,6 +39,15 @@ export class Principal extends Phaser.Scene  {
       this.agregarSonidos()
       this.agregarGrupos()
       this.nave.create();
+      switch(global.nivelActual){
+        case 1:
+          this.generarNivelUno
+          break;
+
+        case 2:
+        this.generarNivelDos  
+        break;
+      }
       
       //Para controlar cuando uso el teclado
       this.cursors = this.input.keyboard.createCursorKeys();
@@ -52,7 +61,7 @@ export class Principal extends Phaser.Scene  {
       this.textoVidas = this.add.text(500, 16, 'Vidas: '+this.nave.vidas, { fontSize: '32px', fill: '#000' });
       
       //Genera la flota enemiga
-      this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
+      //this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
       //Controlo las colisiones
       this.physics.add.collider(this.balasPropias, this.flotaEnemiga,this.eliminarNave,null,this);
       this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
@@ -100,7 +109,7 @@ export class Principal extends Phaser.Scene  {
             break;
           case 3:
             
-            this.scene.start('victoria');
+            this.scene.start('ganasteNave');
             break;
 
         }
@@ -111,7 +120,7 @@ export class Principal extends Phaser.Scene  {
     verificarDerrota()
     {
         if(this.nave.vidas ==0){
-          this.scene.start('derrota');
+          this.scene.start('gameOverNave');
         }
     }
     impactoconBala(nave,bala){

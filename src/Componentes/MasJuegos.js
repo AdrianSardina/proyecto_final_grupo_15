@@ -18,6 +18,15 @@ export default function Masjuegos () {
             <div className="b1">
             <Button href="/arkanoid" variant="outline-light " size="lg">Arkanoid</Button>
             </div>
+            <div className="b1">
+            <Button href="/nave" variant="outline-light " size="lg">War Machine</Button>
+            </div>
+            <div className="b1">
+            <Button href="/dude" variant="outline-light " size="lg">Dude</Button>
+            </div>
+            <div className="b1">
+            <Button href="/preguntados" variant="outline-light " size="lg">Preguntados</Button>
+            </div>
             </div>
             </>
         );
