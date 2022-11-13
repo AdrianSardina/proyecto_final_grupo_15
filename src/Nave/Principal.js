@@ -33,22 +33,23 @@ export class Principal extends Phaser.Scene  {
       
     create()
     {
-      this.reiniciar();
+     // this.reiniciar();
+     this.nave = new Nave(this);
       this.add.image(400, 300, "background").setScale(2);
       this.nivelActual =1;
       this.agregarSonidos()
       this.agregarGrupos()
       this.nave.create();
-      switch(global.nivelActual){
+      switch(this.game.global.nivelactual){
         case 1:
-          this.generarNivelUno
+          this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
           break;
 
         case 2:
-        this.generarNivelDos  
-        break;
+          this.generarNivelDos(listaNaveEnemigasNivel2,this.flotaEnemiga) 
+          break;
       }
-      
+      this.reiniciar();
       //Para controlar cuando uso el teclado
       this.cursors = this.input.keyboard.createCursorKeys();
       this.physics.world.setBoundsCollision(true, true, true, true);
@@ -163,8 +164,8 @@ export class Principal extends Phaser.Scene  {
     
     //Elimina una nave que fue disparada por el jugador
     eliminarNave(bala,nave)
-    {   this.game.global.score += 10;
-        this.textoPuntaje.setText('Score: ' + this.puntaje);//actualizo el puntaje mostrado en pantalla
+    {   this.puntaje += 10;
+        this.textoPuntaje.setText('Puntaje: ' + this.puntaje);//actualizo el puntaje mostrado en pantalla
         //Para dar una chance de aparicion de un power up cada vez que se elimina la nave enemiga
         if(Phaser.Math.RND.between(0, 99)<=19) 
         {
@@ -282,6 +283,9 @@ export class Principal extends Phaser.Scene  {
     {
       this.nave.vidas =3;
       this.nave.tipoDisparo =1;
+      this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
+      this.physics.add.collider(this.nave.get(), this.balasEnemigas,this.impactoconBala,null,this);
+      this.physics.add.collider(this.nave.get(), this.listaPowerUps,this.impactoconPower,null,this);
     }
     //------------------Metodos para agregar sonido y los grupo------------------//
     agregarSonidos(){
