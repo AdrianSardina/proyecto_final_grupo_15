@@ -71,7 +71,7 @@ export class Principal extends Phaser.Scene  {
 //--------------------Update---------------------//
     update(time,delta)
     {
-      console.log(this.flotaEnemiga.countActive());
+      console.log(this.game.global.nivelactual);
       this.tiempoTranscurrido +=delta
      
      
