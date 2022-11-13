@@ -3,8 +3,9 @@ import Phaser from "phaser";
 import React from "react";
 import { Preload } from "./Preload";
 import { Principal } from "./Principal";
-import { Victoria} from "./Victoria.js";
-import { Derrota } from "./Derrota";
+import { MenuInicio } from "../escenas/MenuInicio";
+import { GanasteNave } from "../escenas/GanasteNave";
+import { GameOverNave } from "../escenas/GameOverNave";
 
 
 export default function JuegoNave() {
@@ -21,7 +22,7 @@ export default function JuegoNave() {
             },
             nivelactual:1,
         } 
-        const Escenas =[Preload,Principal,Derrota,Victoria]
+        const Escenas =[MenuInicio, Preload,Principal,GanasteNave,GameOverNave]
         const crearEscenas = Scene => new Scene(Configuracion)
         const iniciarEscena = () => Escenas.map(crearEscenas)
         var config = {
