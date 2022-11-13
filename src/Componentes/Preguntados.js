@@ -5,35 +5,41 @@ import { Button } from "react-bootstrap";
 export default function Preguntados() {
 
     const [preguntaActual, setPreguntaActual] = useState(0);
-    const [numPregUsada, setNumPregUsada] = useState(0);
-    const [puntuacion, setPuntuacion] = useState(0);
+    const [mostrarPreg, setMostrarPreg] = useState(preguntas[preguntaActual].pregunta);
+    const [respCorrectamente, setRespCorrectamente] = useState(0);
     const [capRespCorrecta, setCapRespCorrecta] = useState(preguntas[preguntaActual].correcta);
-    const [capResp, setCapRest] = useState('');
-    const [juegoHabilitado, SetJuegoHabilitado] = useState(true);
+    const [capResp, setCapRest] = useState("");
+    const [juegoHabilitado, SetJuegoHabilitado] = useState(false);
+    const [botSiguiente, setBotSiguiente] = useState(false);
+    const [botJugar, setBotJugar] = useState(true);
+    const [botJugarMen, setBotJugarMen] = useState("Jugar");
     const [resultado, setResultado] = useState("");
     const [bandera, SetBandera] = useState(true);
-    //const [preguntaUsada, setPreguntaUsada] = useState('');
-    function Reiniciar() {
-        setPreguntaActual(0);
-        setPuntuacion(0);
-        console.log("la pregunta es:" + preguntas[preguntaActual].pregunta);
+    const [tiempoRestante, setTiempoRestante] = useState(0);
+    function Jugar() {
+        setPreguntaActual(1);
+        setRespCorrectamente(0);
         SetJuegoHabilitado(true);
-        /*  if (!preguntaElegida.includes(preguntaUsada)) {
-             let ram = Math.floor(Math.random() * (5 - 0) + 0);
-             console.log(ram);
-             setPreguntaElegida(preguntas[ram].pregunta);
-         } */
-        //palabraMostrada.includes("-")
+        setBotJugar(false);
+        setBotJugarMen("Reiniciar");
+        console.log("la pregunta es:" + mostrarPreg);
+        console.log(preguntaActual);
+        setTiempoRestante(5);
 
     }
 
 
     function Siguiente() {
-        //setNumPregUsada(numPregUsada + 1);
-        setPreguntaActual(preguntaActual + 1);
-        SetJuegoHabilitado(true);
-        // setCapRespCorrecta(preguntas[preguntaActual].correcta);
-        //  console.log("la pregunta es siguiente es :" + preguntas[preguntaActual].pregunta);
+        setResultado("");
+        if (preguntaActual < preguntas.length - 1) {
+            setPreguntaActual(preguntaActual + 1);
+            SetJuegoHabilitado(true);
+            setBotSiguiente(false);
+            setMostrarPreg(preguntas[preguntaActual].pregunta);
+            console.log(mostrarPreg);
+            setTiempoRestante(5);
+        }
+
     }
     function Verificar() {
         console.log(preguntaActual);
@@ -41,51 +47,84 @@ export default function Preguntados() {
         console.log(capResp);
         if (bandera) {
             SetBandera(false);
-        }else{
+        } else {
             if (capRespCorrecta == capResp) {
                 console.log("Respuesta Correcta");
-                setPuntuacion(puntuacion + 10);
+                setRespCorrectamente(respCorrectamente + 1);
                 setResultado("Respuesta Correcta");
-                SetJuegoHabilitado(false);
-                setTimeout(()=> {setResultado("")},2000);
-                setTimeout(()=>{setPreguntaActual(preguntaActual+1)},2000);
+
+                console.log(juegoHabilitado);
 
 
-    
             } else {
                 setResultado("Respuesta Incorrecta");
                 console.log("Respuesta Incorrecta");
-                SetJuegoHabilitado(false);
-                setTimeout(()=> {setResultado("")},2000);
-                setTimeout(()=>{setPreguntaActual(preguntaActual+1)},2000);
+
+                console.log(juegoHabilitado);
 
             }
+            SetJuegoHabilitado(false);
+            setBotSiguiente(true);
+            setTiempoRestante("");
         }
-       
+        if (preguntaActual == preguntas.length - 1) {
+            setBotSiguiente(false);
+            setBotJugar(true);
+            setTimeout(() => { setResultado("") }, 2000);
+            setMostrarPreg("Presiona Reiniciar");
+        }
+
+
 
 
     }
-    useEffect(() => { setCapRespCorrecta(preguntas[preguntaActual].correcta) }), [preguntaActual];
+    useEffect(() => { setCapRespCorrecta(preguntas[preguntaActual].correcta) }, [preguntaActual]);
+    useEffect(() => { setMostrarPreg(preguntas[preguntaActual].pregunta) }, [preguntaActual]);
     useEffect(() => { Verificar() }, [capResp]);
-    useEffect(()=>{SetJuegoHabilitado(true)},[resultado]);
-    //   useEffect(() => { Verificar() }, [capRespCorrecta]);
-    //useEffect(() => {Verificar(preguntaActual)}, [capRespCorrecta]);
+    useEffect(() => {
+        const intervalo = setInterval(() => {
+            if (tiempoRestante > 0) setTiempoRestante((prev) => prev - 1);
+            if (tiempoRestante == 0) {
+                SetJuegoHabilitado(false);
+
+                if (!botJugar) {
+                    if ((resultado !== "Respuesta Correcta") && (resultado !== "Respuesta Incorrecta")) {
+                        setResultado("No Alcanzaste a Responder, Que lastima");
+                        setBotSiguiente(true);
+                        console.log(preguntaActual);
+                        console.log(preguntas.length - 1);
+                        if (preguntaActual >= preguntas.length - 1) {
+                            console.log("entro al if");
+                            setBotSiguiente(false);
+                            setBotJugar(true);
+                        }
+                    }
+
+                }
+            }
+        }, 1000);
+        return () => clearInterval(intervalo);
+    }, [tiempoRestante]);
+
     return (
 
         <>
             <h1>El Juego de Preguntados</h1>
-            <span>pregunta {preguntaActual + 1} de {preguntas.length}</span>
-            <h3>su puntaje es:{puntuacion}</h3>
-            <h3>{resultado}</h3>
-            <h2>La siguiente pregunta es: {preguntas[preguntaActual].pregunta}</h2>
-            <Button onClick={Reiniciar} >Reiniciar</Button>
-            <Button onClick={Siguiente} >Siguiente</Button>
+            <span>pregunta {preguntaActual} de {preguntas.length - 1}</span>
             <br></br>
-            {preguntas[preguntaActual].opciones.map((valor, i) => (
-                //  <Button key={valor.op} onClick={() => Verificar(preguntaActual, valor.op)}> {valor.op} </Button>
+            <span>tiempo Restante: {tiempoRestante}</span>
+            <h3>Respondido Correctamente: {respCorrectamente}</h3>
+            <h3>{resultado}</h3>
+            <h2>{mostrarPreg}</h2>
+            <Button onClick={Jugar} disabled={!botJugar}> {botJugarMen} </Button>
+            <Button onClick={Siguiente} disabled={!botSiguiente} >Siguiente</Button>
+            <br></br>
+            {/* {preguntas[preguntaActual].opciones.map((valor, i) => (
                 <Button key={i} onClick={() => setCapRest(valor.op)} disabled={!juegoHabilitado}> {valor.op} </Button>
-            ))}
-
+            ))} */}
+            <Button onClick={() => setCapRest(preguntas[preguntaActual].op1)} disabled={!juegoHabilitado} >{preguntas[preguntaActual].op1}</Button>
+            <Button onClick={() => setCapRest(preguntas[preguntaActual].op2)} disabled={!juegoHabilitado}>{preguntas[preguntaActual].op2}</Button>
+            <Button onClick={() => setCapRest(preguntas[preguntaActual].op3)} disabled={!juegoHabilitado}>{preguntas[preguntaActual].op3}</Button>
         </>
 
 

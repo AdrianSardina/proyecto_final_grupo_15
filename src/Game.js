@@ -17,6 +17,7 @@
  import './Css/estiloLG.css';
  import './Imagenes/15.jpg';
  import Preguntados from "./Componentes/Preguntados";
+ 
 
 
 
@@ -37,7 +38,9 @@ export default function Game() {
         <Route path="/nosotros" element={<Nosotros/>}/>;
         <Route path="/masjuegos" element={<Masjuegos/>} />;
         <Route path="/arkanoid" element={<Juego/>} />;
+        <Route path="/preguntados" element={<Preguntados/>} />;
         <Route path="*" element={<NotFound/>} />;
+
         </Routes>
         </BrowserRouter> 
         <Footer></Footer>

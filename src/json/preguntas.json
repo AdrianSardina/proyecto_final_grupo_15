@@ -1,77 +1,90 @@
 [
     {
+        "pregunta": "Bienvenido a nuestro Juego - Presione JUGAR",
+        
+        
+                "op1": "*******",
+            
+            
+                "op2": "*******",
+            
+            
+                "op3": "*******",
+            
+        
+        "correcta": "*******"
+    },
+
+
+    {
         "pregunta": "¿Cuál es el nombre oficial de Argentina?",
-        "opciones": [
-            {
-                "op": "Estados Unidos de Argentina"
-            },
-            {
-                "op": "Provincias Sur Unidas Argentina"
-            },
-            {
-                "op": "República Argentina"
-            }
-        ],
+        
+        
+                "op1": "Estados Unidos de Argentina",
+            
+            
+                "op2": "Provincias Sur Unidas Argentina",
+            
+            
+                "op3": "República Argentina",
+            
+        
         "correcta": "República Argentina"
     },
     {
         "pregunta": "¿Cuántos países limitan con Argentina?",
-        "opciones": [
-            {
-                "op": "3"
-            },
-            {
-                "op": "4"
-            },
-            {
-                "op": "5"
-            }
-        ],
+            
+                "op1": "3",
+            
+            
+                "op2": "4",
+            
+            
+                "op3": "5",
+        
+        
         "correcta": "5"
     },
     {
         "pregunta": "¿Cuál es la capital de Argentina?",
-        "opciones": [
-            {
-                "op": "La Plata"
-            },
-            {
-                "op": "Bueno Aires"
-            },
-            {
-                "op": "Mendoza"
-            }
-        ],
+            
+                "op1": "La Plata",
+            
+            
+                "op2": "Bueno Aires",
+            
+            
+                "op3": "Mendoza",
+            
+        
         "correcta": "Bueno Aires"
     },
     {
         "pregunta": "¿Cuántas provincias tiene Argentina?",
-        "opciones": [
-            {
-                "op": "18"
-            },
-            {
-                "op": "23"
-            },
-            {
-                "op": "24"
-            }
-        ],
+            
+                "op1": "18",
+            
+            
+                "op2": "23",
+            
+            
+                "op3": "24",
+            
+        
         "correcta": "23"
     },
     {
         "pregunta": "¿En qué fecha se conmemora la Independencia de Argentina?",
-        "opciones": [
-            {
-                "op": "9 de julio"
-            },
-            {
-                "op": "9 de junio"
-            },
-            {
-                "op": "9 de agostos"
-            }
-        ],
+            
+                "op1": "9 de julio",
+            
+            
+                "op2": "9 de junio",
+            
+            
+                "op3": "9 de agostos",
+            
+        
         "correcta": "9 de julio"
     }
 ]
