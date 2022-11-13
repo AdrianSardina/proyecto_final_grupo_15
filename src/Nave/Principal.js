@@ -13,8 +13,7 @@ export class Principal extends Phaser.Scene  {
       balasPropias = null;
       balasEnemigas = null;
       powerUp = new PowerUps(this);
-      listaPowerUps = null;
-      vidas =null; 
+      listaPowerUps = null;      
       nave = new Nave(this);
       flotaEnemiga = null;
       nivelActual = null;
@@ -68,23 +67,28 @@ export class Principal extends Phaser.Scene  {
      
      
       this.nave.moverNave(this.cursors)
-      //Para disparar con el boton izquierdo del mouse
+        //Para disparar con el boton izquierdo del mouse
       if(this.input.activePointer.leftButtonDown())
-      {
-        
+      {       
         // Revisa si paso un tiempo determinado antes de volver generar una nueva bala. Para simular la rapidez de disparo
         if (this.tiempoTranscurrido  > this.proximodisparo)   
         {
-          
-          // guarda un tiempo mas la rapidez, y solo se ejecutara de nuevo luego un tiempo especifico.
+        // guarda un tiempo mas la rapidez, y solo se ejecutara de nuevo luego un tiempo especifico.
           this.proximodisparo = this.tiempoTranscurrido  + this.nave.rapidezDisparo; 
           this.nave.disparar(this.balasPropias,this.nave.tipoDisparo);
           this.sonidoDisparo.play()
         }
       }
       //Para eliminar las balas que hayan pasado la parte superior
-      this.eliminarBalas()
-      this.controlarFlota()
+      this.eliminarBalas();
+      this.controlarFlota();
+      
+      this.verificarVictoria();
+    }
+//--------------------Funciones---------------------//
+    //Verifica si ya no naves enemigas activas para pasar al siguiente nivel o ir a la escena de victoria
+    verificarVictoria()
+    {
       if(this.flotaEnemiga.countActive()==0)
       { 
         this.nivelActual++
@@ -103,8 +107,7 @@ export class Principal extends Phaser.Scene  {
        
       }
     }
-//--------------------Funciones---------------------//
-
+    //Verifica si el jugador ya no tiene vidas
     verificarDerrota()
     {
         if(this.nave.vidas ==0){
@@ -124,6 +127,7 @@ export class Principal extends Phaser.Scene  {
     bala.disableBody(true,true)
       
   }
+  //Funcion que se llama cuando el jugador choca con una nave enemiga
   impactoconNave(naveAmiga,naveEnemiga)
     {
       if(!this.nave.esInvencible)
@@ -141,7 +145,7 @@ export class Principal extends Phaser.Scene  {
         naveEnemiga.disableBody(true,true)
       
     }
-
+   //Funcion que se llama cuando el jugador es impactado por una bala enemiga
     impactoconPower(nave,power)
     {
      this.powerUp.cambiarTipoDisparo(this.nave)
@@ -151,15 +155,17 @@ export class Principal extends Phaser.Scene  {
     //Elimina una nave que fue disparada por el jugador
     eliminarNave(bala,nave)
     {   this.game.global.score += 10;
-        this.textoPuntaje.setText('Score: ' + this.puntaje);
-        if(Phaser.Math.RND.between(0, 99)<=19){
+        this.textoPuntaje.setText('Score: ' + this.puntaje);//actualizo el puntaje mostrado en pantalla
+        //Para dar una chance de aparicion de un power up cada vez que se elimina la nave enemiga
+        if(Phaser.Math.RND.between(0, 99)<=19) 
+        {
           this.powerUp.create(nave.x,nave.y,this.listaPowerUps)
         }
         
         nave.disableBody(true,true);
         
         var a=nave.getData('evento')
-        a.destroy()
+        a.destroy() // destruyo el evento para que deje de generar balas
         bala.disableBody(true,true);
         this.sonidoExplosion.play();
         
@@ -167,6 +173,7 @@ export class Principal extends Phaser.Scene  {
  //Elimina las balas que se pasaron de la parte superior
     eliminarBalas()
     {
+      //Recorro el grupo balas propias
      this.balasPropias.children.iterate(function (child) {
         
     if(child.y<0) 
@@ -174,27 +181,27 @@ export class Principal extends Phaser.Scene  {
      child.disableBody(true,true);
     }
  
- });
- }
- controlarFlota()
+    });
+    }
+    //Para revisar si una nava se pasa de la parte superior
+    controlarFlota()
     {
-
-  this.flotaEnemiga.children.iterate(function (child) {
-       
-    //Revisa que si la nave paso por la parte inferior del lienzo. Si es asi se lo elimina
+      //Recorro el grupo flota enemiga
+      this.flotaEnemiga.children.iterate(function (child) 
+      {    
+      //Revisa que si la nave paso por la parte inferior del lienzo. Si es asi se lo elimina
         if(child.y >800) 
         {
          child.disableBody(true,true);
-        }     
-     
-    });
+        }        
+      });
     
     }
 
  
-
- generarNivelDos(lista ,grupo) {
-  for (let s of lista) {   
+    //Usando el json listaNavesEnemigasNivel2 creo las naves enemigas usando las posiciones "x" e "y" guardadas ahi
+    generarNivelDos(lista ,grupo) {
+      for (let s of lista) {   
           let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
           //Se usa para dar el movimiento de seno
           var timeline = this.tweens.timeline({      
@@ -207,45 +214,37 @@ export class Principal extends Phaser.Scene  {
                 duration: 700,
                 yoyo: true,
                            
-            },
-            
-            
+            },         
             ],   
-        });
-         
+        });       
         //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
-      var eventoDeDisparo =  this.time.addEvent({
-        
-          delay: Phaser.Math.Between(800, 1200),
-          callback: () => {
-            
-            //Reviso que la nave se vea en el lienzo
-            if(nuevaNave.y >=0)
-            {
-              //Creo la nueva bala y le asigno una velocidad
-              var nuevaBala = this.balasEnemigas.create(nuevaNave.x,nuevaNave.y,'bala')
-              nuevaBala.setVelocityY(400);
-            }
+           var eventoDeDisparo =  this.time.addEvent({ 
+            delay: Phaser.Math.Between(800, 1200),
+              callback: () => {         
+              //Reviso que la nave se vea en el lienzo
+              if(nuevaNave.y >=0)
+              {
+                //Creo la nueva bala y le asigno una velocidad
+                var nuevaBala = this.balasEnemigas.create(nuevaNave.x,nuevaNave.y,'bala')
+                nuevaBala.setVelocityY(400);
+              }
            
-          },
-          loop: true,
-      })
+              },
+                loop: true, //Indica si se repetira o no
+            })
      
-    //aqui guardo el evento con el setData para luego destruilo con su nave sea eliminada
-       nuevaNave.setData('evento',eventoDeDisparo)
-
-        nuevaNave.setVelocityY(150);
-        nuevaNave.setData('siguienteDisparo',0);
+       //aqui guardo el evento de Disparo con el setData para luego destruilo con su nave sea eliminada
+            nuevaNave.setData('evento',eventoDeDisparo)
+            nuevaNave.setVelocityY(150);
+        
       }
      
   }
+  //Usando el json listaNaveEnemigasNivel1 creo las naves enemigas usando las posiciones "x" e "y" guardadas ahi
   generarNivelUno(lista ,grupo) {
     for (let s of lista) {   
             let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
-            //Se usa para dar el movimiento de seno
-            
-           
-          //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
+      //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
         var eventoDeDisparo =  this.time.addEvent({
           
             delay: Phaser.Math.Between(1200, 1500),
@@ -264,13 +263,14 @@ export class Principal extends Phaser.Scene  {
         })
        
       //aqui guardo el evento con el setData para luego destruilo con su nave sea eliminada
-          nuevaNave.setData('evento',eventoDeDisparo)
-  
+          nuevaNave.setData('evento',eventoDeDisparo)  
           nuevaNave.setVelocityY(150);
-          nuevaNave.setData('siguienteDisparo',0);
+         
         }
        
     }
+
+    //------------------Metodos para agregar sonido y los grupo------------------//
     agregarSonidos(){
       this.sonidoDisparo = this.sound.add('disparo');
       this.sonidoExplosion = this.sound.add('explosion');

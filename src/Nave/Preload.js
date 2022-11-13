@@ -13,8 +13,7 @@ export class Preload extends Phaser.Scene{
         this.load.image("powerUp", './img/powerUp.png');
     }
     create()
-    {
-       
+    {      
         this.scene.start('game') 
     }
 }

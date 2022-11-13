@@ -2,7 +2,7 @@ export class Nave {
     constructor(scene) {
     this.relatedScene = scene;
     this.vidas = 3;
-    this.velocidad =850;
+    this.velocidad =700;
     this.rapidezDisparo =200;
     this.esInvencible =false;
     this.tiempoInvencibilidad =3000;
@@ -28,29 +28,36 @@ export class Nave {
           }
           else {this.nave.setVelocityX(0);            
           }
+        if(cursor.up.isDown)
+          {
+          this.nave.setVelocityY(-this.velocidad);
+          }else if(cursor.down.isDown)
+          {
+          this.nave.setVelocityY(this.velocidad);
+        } else{this.nave.setVelocityY(0);} 
     }
-    disparar(balas,tipo)
+    disparar(listaBalas,tipo)
         { switch(tipo)
           {
             case 1://Unico Disparo
-              var bala =balas.create(this.nave.x,this.nave.y,'bala');
+              var bala =listaBalas.create(this.nave.x,this.nave.y,'bala');
               bala.setVelocityY(-700)
               break;
             case 2://Triple Disparo
            
-              var bala =balas.create(this.nave.x,this.nave.y,'bala');
+              var bala =listaBalas.create(this.nave.x,this.nave.y,'bala');
                   bala.setVelocityY(-700)
-              var bala =balas.create(this.nave.x,this.nave.y,'bala');
+              var bala =listaBalas.create(this.nave.x,this.nave.y,'bala');
                   bala.setVelocity(700*Math.sin(Math.PI/6),-700)
                   bala.rotation +=Math.sin(Math.PI/6);
-              var bala =balas.create(this.nave.x,this.nave.y,'bala');
+              var bala =listaBalas.create(this.nave.x,this.nave.y,'bala');
                   bala.setVelocity(-700*Math.sin(Math.PI/6),-700)
                   bala.rotation +=-Math.sin(Math.PI/6);
               break;
             case 3: //Doble Disparo
-              var bala =balas.create(this.nave.x-20,this.nave.y,'bala');
+              var bala =listaBalas.create(this.nave.x-20,this.nave.y,'bala');
                   bala.setVelocityY(-700)
-              var bala =balas.create(this.nave.x+20,this.nave.y,'bala');
+              var bala =listaBalas.create(this.nave.x+20,this.nave.y,'bala');
                   bala.setVelocityY(-700)
               break;
              
@@ -66,7 +73,7 @@ export class Nave {
       this.esInvencible =true;
 
       //
-      var eventoInvincibilidad =  this.relatedScene.time.addEvent({
+      var eventoInvencibilidad =  this.relatedScene.time.addEvent({
         
         delay: this.tiempoInvencibilidad, // es el tiempo que tardara para que se ejecute lo que esta dentro del callback
         callback: () => {
