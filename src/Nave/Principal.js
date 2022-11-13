@@ -49,7 +49,7 @@ export class Principal extends Phaser.Scene  {
           this.generarNivelDos(listaNaveEnemigasNivel2,this.flotaEnemiga) 
           break;
       }
-      this.reiniciar();
+     //this.reiniciar();
       //Para controlar cuando uso el teclado
       this.cursors = this.input.keyboard.createCursorKeys();
       this.physics.world.setBoundsCollision(true, true, true, true);
@@ -101,8 +101,8 @@ export class Principal extends Phaser.Scene  {
     {
       if(this.flotaEnemiga.countActive()==0)
       { 
-        this.nivelActual++
-        switch(this.nivelActual)
+        this.game.global.nivelactual++
+        switch(this.game.global.nivelactual)
         {
           
           case 2:

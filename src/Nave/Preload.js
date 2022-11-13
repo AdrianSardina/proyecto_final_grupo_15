@@ -6,6 +6,8 @@ export class Preload extends Phaser.Scene{
     preload()
     {
         this.load.audio('disparo','./sonidos/disparo.ogg');
+        this.load.audio('derrota','./sonidos/derrota.ogg');
+        this.load.audio('victoria','./sonidos/victoria.ogg');
         this.load.audio('explosion','./sonidos/explosion.ogg');
         this.load.audio('choque','./sonidos/choque.ogg');
         this.load.audio('victoria','./sonidos/victoria.ogg');
