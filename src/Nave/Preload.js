@@ -18,6 +18,6 @@ export class Preload extends Phaser.Scene{
     }
     create()
     {      
-        this.scene.start('gameNave') 
+        this.scene.start('menuInicio') 
     }
 }

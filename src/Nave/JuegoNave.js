@@ -4,8 +4,8 @@ import React from "react";
 import { Preload } from "./Preload";
 import { Principal } from "./Principal";
 import { MenuInicio } from "../escenas/MenuInicio";
-import { GanasteNave } from "../escenas/GanasteNave";
-import { GameOverNave } from "../escenas/GameOverNave";
+import {GanasteNave} from "./GanasteNave";
+import {GameOverNave} from "./GameOverNave";
 
 
 export default function JuegoNave() {
@@ -22,7 +22,8 @@ export default function JuegoNave() {
             },
             nivelactual:1,
         } 
-        const Escenas =[MenuInicio, Preload,Principal,GanasteNave,GameOverNave]
+        const Escenas =[Preload,MenuInicio,Principal,GanasteNave,GameOverNave]
+
         const crearEscenas = Scene => new Scene(Configuracion)
         const iniciarEscena = () => Escenas.map(crearEscenas)
         var config = {
@@ -44,8 +45,9 @@ export default function JuegoNave() {
           //arranca el juego
           var game = new Phaser.Game(config);
           
-          game.global = {
-            nivelactual : 1,
+           game.global = {
+            nivelactual: 2,
+            score : 0,
             sound : false
            }
           //Trigger cuando el juego esta completamente listo

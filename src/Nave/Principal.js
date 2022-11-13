@@ -33,7 +33,7 @@ export class Principal extends Phaser.Scene  {
       
     create()
     {
-      
+      this.reiniciar();
       this.add.image(400, 300, "background").setScale(2);
       this.nivelActual =1;
       this.agregarSonidos()
@@ -71,7 +71,7 @@ export class Principal extends Phaser.Scene  {
 //--------------------Update---------------------//
     update(time,delta)
     {
-      console.log(this.flotaEnemiga.countActive());
+      console.log(this.game.global.nivelactual);
       this.tiempoTranscurrido +=delta
      
      
@@ -278,7 +278,11 @@ export class Principal extends Phaser.Scene  {
         }
        
     }
-
+    reiniciar()
+    {
+      this.nave.vidas =3;
+      this.nave.tipoDisparo =1;
+    }
     //------------------Metodos para agregar sonido y los grupo------------------//
     agregarSonidos(){
       this.sonidoDisparo = this.sound.add('disparo');

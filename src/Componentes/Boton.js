@@ -1,8 +1,9 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 
-export default function Boton() {//extends React.Component {
-   // render() {
+
+export function Boton() {
+    
         return (
             <div className= "botones">
         <Button href="/" variant="danger">Inicio</Button>
@@ -17,6 +18,6 @@ export default function Boton() {//extends React.Component {
         
 
         </div>
-    );
-}
-//}
+        )
+    }
+
