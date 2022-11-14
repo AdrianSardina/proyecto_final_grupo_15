@@ -253,7 +253,7 @@ export class Principal extends Phaser.Scene  {
   //Usando el json listaNaveEnemigasNivel1 creo las naves enemigas usando las posiciones "x" e "y" guardadas ahi
   generarNivelUno(lista ,grupo) {
     for (let s of lista) {   
-            let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
+            let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga2').setImmovable(true);
       //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
         var eventoDeDisparo =  this.time.addEvent({
           
