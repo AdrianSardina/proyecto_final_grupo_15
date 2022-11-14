@@ -1,5 +1,5 @@
 .nofun{
-    color:white;
+    color:#fff;
     background-image: url(../Imagenes/Error.jpg);
     height: 720px;
     
@@ -32,8 +32,8 @@
 .textomasjuegos{
     text-align: center;
     flex: 1;
-    color: whitesmoke;
-    background-color: darkcyan;
+    color: #fff;
+    background-color: #000A29c5;
     margin-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -42,7 +42,7 @@
 footer
 {
     text-align: center;
-    background-color: darkgray;
+    background-color: #000A29;
     height: 150px;
 }
 .piePagina{

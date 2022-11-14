@@ -1,9 +1,9 @@
 .container
 {
     text-align: center;
- width:5000px;
- height: 100%;
- background-color:  bisque;   
+    width:5000px;
+    height: 100%;
+    background-color:  #bb1414;   
 }
 .card{
    margin-left: 15%;

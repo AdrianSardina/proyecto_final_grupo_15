@@ -7,7 +7,7 @@
 #root {
     height: 100%;
 
-    background-color: coral;
+    background-color: #bb1414;
 }
 
 .titulo {
@@ -15,9 +15,9 @@
     margin-left: 200px;
     border: solid;
     text-align: center;
-    color: black;
+    color: #fff;
     font-family: serif;
-    background-color: aqua;
+    background-color: #bb1414;
 
 }
 
