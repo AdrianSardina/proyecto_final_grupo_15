@@ -3,8 +3,9 @@ import Phaser from "phaser";
 import React from "react";
 import { Preload } from "./Preload";
 import { Principal } from "./Principal";
-import { Victoria} from "./Victoria.js";
-import { Derrota } from "./Derrota";
+import { MenuInicio } from "../escenas/MenuInicio";
+import {GanasteNave} from "./GanasteNave";
+import {GameOverNave} from "./GameOverNave";
 
 
 export default function JuegoNave() {
@@ -16,12 +17,13 @@ export default function JuegoNave() {
         {
             scale:{
               //  autoCenter :Phaser.Scale.CENTER_HORIZONTALLY,
-                width: 1000,
-                height: 800, 
+                width: 800,
+                height: 600, 
             },
             nivelactual:1,
         } 
-        const Escenas =[Preload,Principal,Derrota,Victoria]
+        const Escenas =[Preload,MenuInicio,Principal,GanasteNave,GameOverNave]
+
         const crearEscenas = Scene => new Scene(Configuracion)
         const iniciarEscena = () => Escenas.map(crearEscenas)
         var config = {
@@ -43,8 +45,9 @@ export default function JuegoNave() {
           //arranca el juego
           var game = new Phaser.Game(config);
           
-          game.global = {
-            nivelactual : 1,
+           game.global = {
+            nivelactual: 2,
+            score : 0,
             sound : false
            }
           //Trigger cuando el juego esta completamente listo

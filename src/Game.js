@@ -3,7 +3,7 @@
  import Nosotros from "./Componentes/Nosotros"; 
  import PiedraPapelTijeras from "./Componentes/PiedraPapelTijeras";
  import Footer from "./Componentes/Footer";
- import Boton from "./Componentes/Boton"
+ import { Boton } from "./Componentes/Boton";
  import 'bootstrap/dist/css/bootstrap.min.css';
  import { BrowserRouter, Routes, Route} from "react-router-dom";
  import Masjuegos from "./Componentes/MasJuegos";
@@ -18,6 +18,7 @@
  import './Imagenes/15.jpg';
  import Preguntados from "./Componentes/Preguntados"; 
  import JuegoNave from "./nave/JuegoNave";
+ import Dude from "./escenas/DudeGame.js";
 
 
 
@@ -41,14 +42,14 @@ export default function Game() {
         <Route path="/arkanoid" element={<Juego/>} />;
         <Route path="/preguntados" element={<Preguntados/>} />;
         <Route path="/nave" element={<JuegoNave/>} />;
-
+        <Route path="/dude" element={<Dude/>} />;
         <Route path="*" element={<NotFound/>} />;
 
         </Routes>
         </BrowserRouter> 
         <Footer></Footer>
 
-     {/* <Preguntados></Preguntados> */}
+    
         </>
 
     )

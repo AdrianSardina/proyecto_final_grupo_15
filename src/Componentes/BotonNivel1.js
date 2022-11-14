@@ -17,8 +17,8 @@ export class BotonNivel1 {
            this.startButton.setFrame(0);
        });
         this.startButton.on('pointerdown', () => {
-            
-            this.relatedScene.scene.start('game');
+           this.relatedScene.game.global.nivelactual =1
+            this.relatedScene.scene.start('gameNave');
         });
     }
 }

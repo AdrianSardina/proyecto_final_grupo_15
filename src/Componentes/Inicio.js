@@ -36,9 +36,9 @@ function Inicio({ text, Children }) {
                     <img src="../img/nene.png" ></img>
 
                     <div className="boton1">
-                        <Link to="/arkanoid"  >
+                        <Link to="/nave"  >
                             <Button variant="secondary" size="lg" active>
-                               *---Jugar---*
+                               *Juego Reciente*
                             </Button>{' '}
                         </Link>
                     </div>

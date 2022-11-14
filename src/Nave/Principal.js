@@ -7,7 +7,7 @@ import { PowerUps } from "./PowerUps";
 
 export class Principal extends Phaser.Scene  {
     constructor(config){
-        super({ key: 'game' });
+        super({ key: 'gameNave' });
       this.config = config
       }
       balasPropias = null;
@@ -33,13 +33,23 @@ export class Principal extends Phaser.Scene  {
       
     create()
     {
-      
+     // this.reiniciar();
+     this.nave = new Nave(this);
       this.add.image(400, 300, "background").setScale(2);
       this.nivelActual =1;
       this.agregarSonidos()
       this.agregarGrupos()
       this.nave.create();
-      
+      switch(this.game.global.nivelactual){
+        case 1:
+          this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
+          break;
+
+        case 2:
+          this.generarNivelDos(listaNaveEnemigasNivel2,this.flotaEnemiga) 
+          break;
+      }
+     //this.reiniciar();
       //Para controlar cuando uso el teclado
       this.cursors = this.input.keyboard.createCursorKeys();
       this.physics.world.setBoundsCollision(true, true, true, true);
@@ -52,7 +62,7 @@ export class Principal extends Phaser.Scene  {
       this.textoVidas = this.add.text(500, 16, 'Vidas: '+this.nave.vidas, { fontSize: '32px', fill: '#000' });
       
       //Genera la flota enemiga
-      this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
+      //this.generarNivelUno(listaNaveEnemigasNivel1,this.flotaEnemiga)
       //Controlo las colisiones
       this.physics.add.collider(this.balasPropias, this.flotaEnemiga,this.eliminarNave,null,this);
       this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
@@ -62,7 +72,7 @@ export class Principal extends Phaser.Scene  {
 //--------------------Update---------------------//
     update(time,delta)
     {
-      console.log(this.flotaEnemiga.countActive());
+      console.log(this.game.global.nivelactual);
       this.tiempoTranscurrido +=delta
      
      
@@ -91,8 +101,8 @@ export class Principal extends Phaser.Scene  {
     {
       if(this.flotaEnemiga.countActive()==0)
       { 
-        this.nivelActual++
-        switch(this.nivelActual)
+        this.game.global.nivelactual++
+        switch(this.game.global.nivelactual)
         {
           
           case 2:
@@ -100,7 +110,7 @@ export class Principal extends Phaser.Scene  {
             break;
           case 3:
             
-            this.scene.start('victoria');
+            this.scene.start('ganasteNave');
             break;
 
         }
@@ -111,7 +121,7 @@ export class Principal extends Phaser.Scene  {
     verificarDerrota()
     {
         if(this.nave.vidas ==0){
-          this.scene.start('derrota');
+          this.scene.start('gameOverNave');
         }
     }
     impactoconBala(nave,bala){
@@ -154,8 +164,8 @@ export class Principal extends Phaser.Scene  {
     
     //Elimina una nave que fue disparada por el jugador
     eliminarNave(bala,nave)
-    {   this.game.global.score += 10;
-        this.textoPuntaje.setText('Score: ' + this.puntaje);//actualizo el puntaje mostrado en pantalla
+    {   this.puntaje += 10;
+        this.textoPuntaje.setText('Puntaje: ' + this.puntaje);//actualizo el puntaje mostrado en pantalla
         //Para dar una chance de aparicion de un power up cada vez que se elimina la nave enemiga
         if(Phaser.Math.RND.between(0, 99)<=19) 
         {
@@ -243,7 +253,7 @@ export class Principal extends Phaser.Scene  {
   //Usando el json listaNaveEnemigasNivel1 creo las naves enemigas usando las posiciones "x" e "y" guardadas ahi
   generarNivelUno(lista ,grupo) {
     for (let s of lista) {   
-            let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga').setImmovable(true);
+            let nuevaNave = grupo.create(s.x,s.y,'naveEnemiga2').setImmovable(true);
       //Se declara un evento que dispara una una bala cada intervalo (determinado por "delay")
         var eventoDeDisparo =  this.time.addEvent({
           
@@ -269,7 +279,14 @@ export class Principal extends Phaser.Scene  {
         }
        
     }
-
+    reiniciar()
+    {
+      this.nave.vidas =3;
+      this.nave.tipoDisparo =1;
+      this.physics.add.collider(this.nave.get(), this.flotaEnemiga,this.impactoconNave,null,this);
+      this.physics.add.collider(this.nave.get(), this.balasEnemigas,this.impactoconBala,null,this);
+      this.physics.add.collider(this.nave.get(), this.listaPowerUps,this.impactoconPower,null,this);
+    }
     //------------------Metodos para agregar sonido y los grupo------------------//
     agregarSonidos(){
       this.sonidoDisparo = this.sound.add('disparo');
