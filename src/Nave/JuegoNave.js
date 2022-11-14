@@ -17,8 +17,8 @@ export default function JuegoNave() {
         {
             scale:{
               //  autoCenter :Phaser.Scale.CENTER_HORIZONTALLY,
-                width: 1000,
-                height: 800, 
+                width: 800,
+                height: 600, 
             },
             nivelactual:1,
         } 
