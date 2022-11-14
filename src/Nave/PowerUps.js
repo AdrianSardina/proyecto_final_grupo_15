@@ -15,7 +15,7 @@ export class PowerUps
         var random;
         //Se le asigna un numero al azar hasta que sea distinto al tipo de disparo actual
         do{
-            random =Math.floor(Math.random() * (3 - 1) + 1) // 1 - 3 
+            random =Math.floor(Math.random() * (4 - 1) + 1) // 1 - 3 
         }while(random ==nave.tipoDisparo)
 
         switch(random)
