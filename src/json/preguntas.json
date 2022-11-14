@@ -86,5 +86,75 @@
             
         
         "correcta": "9 de julio"
+    },
+    {
+        "pregunta": "¿Qué baile es considerado patrimonio Argentino?",
+            
+                "op1": "Chacarera",
+            
+            
+                "op2": "Malambo",
+            
+            
+                "op3": "Tango",
+            
+        
+        "correcta": "Tango"
+    },
+    {
+        "pregunta": "¿Cuál es la flor nacional de Argentina?",
+            
+                "op1": "Ceibo",
+            
+            
+                "op2": "Azucena",
+            
+            
+                "op3": "Orquídea",
+            
+        
+        "correcta": "Ceibo"
+    },
+    {
+        "pregunta": "¿Cuál es monumento de mayor relevancia en Argentina?",
+            
+                "op1": "El Obelisco",
+            
+            
+                "op2": "El arco del triunfo",
+            
+            
+                "op3": "Cristo Redentor",
+            
+        
+        "correcta": "El Obelisco"
+    },
+    {
+        "pregunta": "¿Con qué país Argentina tuvo conflicto por las Islas Malvinas?",
+            
+                "op1": "Francia",
+            
+            
+                "op2": "Estados Unidos",
+            
+            
+                "op3": "Reino Unido",
+            
+        
+        "correcta": "Reino Unido"
+    },
+    {
+        "pregunta": "¿Qué teatro argentino es famoso a nivel mundial?",
+            
+                "op1": "Teatro Metropolitan",
+            
+            
+                "op2": "Teatro Colón",
+            
+            
+                "op3": "Teatro Coliseo",
+            
+        
+        "correcta": "Teatro Colón"
     }
 ]
